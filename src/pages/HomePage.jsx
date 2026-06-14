@@ -475,38 +475,28 @@ function Navbar() {
 ═══════════════════════════════════════════════════════════════════════════ */
 function Hero() {
   const [hoveredCard, setHoveredCard] = useState(null);
-  
-  // Card data
+
+  // Profile cards configuration
   const cards = [
-    { id: 1, title: "React Developer", status: "Available Now", statusColor: "#22c55e", icon: FiCode, gradient: "linear-gradient(135deg, #eff6ff, #dbeafe)", iconColor: "#3b82f6", position: "top-left", x: 20, y: 40 },
-    { id: 2, title: "UI/UX Designer", status: "Open to Collab", statusColor: "#f59e0b", icon: FiUser, gradient: "linear-gradient(135deg, #fdf2f8, #fce7f3)", iconColor: "#ec4899", position: "top-right", x: 20, y: 40 },
-    { id: 3, title: "Backend Engineer", status: "Available Now", statusColor: "#22c55e", icon: FiCpu, gradient: "linear-gradient(135deg, #f0fdf4, #dcfce7)", iconColor: "#10b981", position: "bottom-left", x: 20, y: 50 },
-    { id: 4, title: "Project Manager", status: "Actively Looking", statusColor: "#3b82f6", icon: FiBriefcase, gradient: "linear-gradient(135deg, #fffbeb, #fef3c7)", iconColor: "#f59e0b", position: "bottom-right", x: 20, y: 50 },
-    { id: 5, title: "ML Engineer", status: "Open to Work", statusColor: "#22c55e", icon: FiTarget, gradient: "linear-gradient(135deg, #f3e8ff, #ede9fe)", iconColor: "#7c3aed", position: "center-top", x: 50, y: 120 },
+    { id: 1, title: "React Developer", status: "Available Now", statusColor: "#22c55e", icon: FiCode, gradient: "linear-gradient(135deg, #eff6ff, #dbeafe)", iconColor: "#3b82f6", className: "position-absolute top-0 start-0 translate-middle-md" },
+    { id: 2, title: "UI/UX Designer", status: "Open to Collab", statusColor: "#f59e0b", icon: FiUser, gradient: "linear-gradient(135deg, #fdf2f8, #fce7f3)", iconColor: "#ec4899", className: "position-absolute top-0 end-0 translate-middle-md" },
+    { id: 3, title: "Backend Engineer", status: "Available Now", statusColor: "#22c55e", icon: FiCpu, gradient: "linear-gradient(135deg, #f0fdf4, #dcfce7)", iconColor: "#10b981", className: "position-absolute bottom-0 start-0 translate-middle-md" },
+    { id: 4, title: "Project Manager", status: "Actively Looking", statusColor: "#3b82f6", icon: FiBriefcase, gradient: "linear-gradient(135deg, #fffbeb, #fef3c7)", iconColor: "#f59e0b", className: "position-absolute bottom-0 end-0 translate-middle-md" },
+    { id: 5, title: "ML Engineer", status: "Open to Work", statusColor: "#22c55e", icon: FiTarget, gradient: "linear-gradient(135deg, #f3e8ff, #ede9fe)", iconColor: "#7c3aed", className: "position-absolute top-0 start-50 translate-middle" },
   ];
 
-  const activities = [
-    { text: "Applied to AI Project", color: "#7c3aed", delay: 0 },
-    { text: "New Team Formed", color: "#10b981", delay: 0.1 },
-    { text: "PR Merged 🎉", color: "#f59e0b", delay: 0.2 },
-    { text: "Hackathon Winner", color: "#06b6d4", delay: 0.3 },
-  ];
-
-  // Helper to get card style based on position
-  const getCardStyle = (position, x, y) => {
-    switch(position) {
-      case "top-left": return { top: y, left: x };
-      case "top-right": return { top: y, right: x };
-      case "bottom-left": return { bottom: y, left: x };
-      case "bottom-right": return { bottom: y, right: x };
-      case "center-top": return { top: y, left: `calc(50% - ${x}px)` };
-      default: return { top: y, left: x };
-    }
-  };
-
-  const getCardAnimation = (id) => {
-    const animations = ["float-m1", "float-m2", "float-m3", "float-m4", "float-m1"];
-    return animations[(id - 1) % animations.length];
+  // Unique framer-motion floating variants for natural asymmetry
+  const floatVariants = {
+    animate: (i) => ({
+      y: i % 2 === 0 ? [-10, 10, -10] : [10, -10, 10],
+      x: i % 3 === 0 ? [-5, 5, -5] : [5, -5, 5],
+      rotate: i % 2 === 0 ? [-1, 1, -1] : [1, -1, 1],
+      transition: {
+        duration: 4 + (i % 3),
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    })
   };
 
   return (
@@ -522,56 +512,18 @@ function Hero() {
         position: "relative",
       }}
     >
-      {/* Animated Gradient Orbs */}
+      {/* Background Decorative Orbs */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>
         <div className="glow-pulse" style={{ position: "absolute", top: "-10%", left: "-5%", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%)" }} />
         <div className="glow-pulse" style={{ position: "absolute", bottom: "-10%", right: "-5%", width: 450, height: 450, borderRadius: "50%", background: "radial-gradient(circle, rgba(79,70,229,0.12) 0%, transparent 70%)", animationDelay: "1.5s" }} />
-        <div className="spin-slow" style={{ position: "absolute", top: "30%", left: "40%", width: 300, height: 300, borderRadius: "50%", border: "1px dashed rgba(124,58,237,0.1)", pointerEvents: "none" }} />
-        <div className="spin-slow" style={{ position: "absolute", top: "20%", right: "30%", width: 200, height: 200, borderRadius: "50%", border: "1px dashed rgba(139,92,246,0.08)", pointerEvents: "none", animationDirection: "reverse" }} />
-      </div>
-
-      {/* Particle effects */}
-      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1 }}>
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ 
-              opacity: [0, 0.5, 0],
-              scale: [0, 1, 0],
-              x: [0, (Math.random() - 0.5) * 200],
-              y: [0, (Math.random() - 0.5) * 200]
-            }}
-            transition={{ 
-              duration: 3 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-              ease: "easeOut"
-            }}
-            style={{
-              position: "absolute",
-              width: 3 + Math.random() * 6,
-              height: 3 + Math.random() * 6,
-              borderRadius: "50%",
-              background: `rgba(124, 58, 237, ${0.3 + Math.random() * 0.4})`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-          />
-        ))}
       </div>
 
       <div className="container position-relative" style={{ zIndex: 2 }}>
         <div className="row align-items-center g-4 g-lg-5">
 
-          {/* LEFT COLUMN - Content with modern animations */}
+          {/* LEFT COLUMN - Copy Text */}
           <div className="col-lg-5">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-            >
-              {/* Platform Badge with shimmer */}
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -601,7 +553,6 @@ function Hero() {
                 </span>
               </motion.div>
 
-              {/* Main Heading with typewriter effect */}
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -610,11 +561,10 @@ function Hero() {
               >
                 Build{" "}
                 <motion.span
-                  initial={{ backgroundPosition: "0% 50%" }}
-                  animate={{ backgroundPosition: "100% 50%" }}
-                  transition={{ duration: 3, repeat: Infinity, repeatType: "reverse" }}
+                  animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
                   style={{
-                    background: "linear-gradient(90deg, #7c3aed, #a78bfa, #7c3aed, #4f46e5, #7c3aed)",
+                    background: "linear-gradient(90deg, #7c3aed, #a78bfa, #4f46e5, #7c3aed)",
                     backgroundSize: "300% auto",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
@@ -626,7 +576,6 @@ function Hero() {
                 {" "}Projects<br />Together
               </motion.h1>
 
-              {/* Description with fade up */}
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -636,79 +585,40 @@ function Hero() {
                 Connect with talented developers, designers, and innovators to turn your ideas into successful projects.
               </motion.p>
 
-              {/* CTA Buttons with hover effects */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.45 }}
                 className="d-flex flex-wrap gap-3 mb-5"
               >
-                <motion.a
-                  href="#"
-                  className="tu-btn-primary"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  style={{ position: "relative", overflow: "hidden" }}
-                >
+                <motion.a href="#" className="tu-btn-primary" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
                   Explore Projects <FiArrowRight size={15} />
-                  <motion.div
-                    style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)", x: "-100%" }}
-                    animate={{ x: "100%" }}
-                    transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
-                  />
                 </motion.a>
-                <motion.a
-                  href="#"
-                  className="tu-btn-outline"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                >
+                <motion.a href="#" className="tu-btn-outline" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
                   Create Project
                 </motion.a>
               </motion.div>
 
-              {/* Social Proof with staggered animation */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="d-flex align-items-center gap-4"
-              >
+              {/* Social Proof metrics */}
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.6 }} className="d-flex align-items-center gap-4">
                 <div className="d-flex">
                   {["#7c3aed", "#4f46e5", "#06b6d4", "#ec4899", "#f59e0b"].map((c, i) => (
-                    <motion.div
+                    <div
                       key={i}
-                      initial={{ opacity: 0, scale: 0, x: -10 }}
-                      animate={{ opacity: 1, scale: 1, x: 0 }}
-                      transition={{ delay: 0.7 + i * 0.05, type: "spring" }}
-                      whileHover={{ y: -5, transition: { duration: 0.2 } }}
                       style={{
-                        width: 34, height: 34, borderRadius: 10,
-                        background: c,
-                        border: "2.5px solid #fff",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        color: "#fff", fontWeight: 800, fontSize: ".65rem",
-                        marginLeft: i > 0 ? -10 : 0,
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                        cursor: "pointer",
+                        width: 34, height: 34, borderRadius: 10, background: c, border: "2.5px solid #fff",
+                        display: "flex", alignItems: "center", justifycontent: "center",
+                        color: "#fff", fontWeight: 800, fontSize: ".65rem", marginLeft: i > 0 ? -10 : 0,
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.1)", justifycontent: "center", alignitems: "center"
                       }}
                     >
-                      {["A", "K", "M", "R", "S"][i]}
-                    </motion.div>
+                      <span className="w-100 text-center"> {["A", "K", "M", "R", "S"][i]}</span>
+                    </div>
                   ))}
                 </div>
                 <div>
                   <div className="d-flex gap-1 mb-1">
-                    {[...Array(5)].map((_, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.85 + i * 0.05 }}
-                      >
-                        <FiStar size={13} style={{ fill: "#f59e0b", color: "#f59e0b" }} />
-                      </motion.div>
-                    ))}
+                    {[...Array(5)].map((_, i) => <FiStar key={i} size={13} style={{ fill: "#f59e0b", color: "#f59e0b" }} />)}
                   </div>
                   <p style={{ fontSize: ".75rem", color: "#64748b", margin: 0 }}>
                     <strong style={{ color: "#1e293b" }}>500+</strong> students building together
@@ -718,431 +628,98 @@ function Hero() {
             </motion.div>
           </div>
 
-          {/* RIGHT COLUMN - Modern Animated Cards Layout */}
+          {/* RIGHT COLUMN - Refactored Animated Network Map */}
           <div className="col-lg-7 d-none d-lg-block">
-            <div style={{ position: "relative", width: "100%", height: 560, margin: "0 auto" }}>
+            <div className="d-flex justify-content-center align-items-center" style={{ width: "100%", height: 550, position: "relative" }}>
               
-              {/* Central Purple Hub Card with ripple effect */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, type: "spring", stiffness: 100 }}
-                className="float-m3"
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  width: 210,
-                  height: 210,
-                  borderRadius: 35,
-                  background: "linear-gradient(135deg, #7c3aed 0%, #5b21b6 60%, #4338ca 100%)",
-                  boxShadow: "0 32px 64px rgba(109, 40, 217, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.15) inset",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  zIndex: 10,
-                  textAlign: "center",
-                  cursor: "pointer",
-                }}
-                whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-              >
-                {/* Ripple rings */}
-                <div className="pulse-ring" style={{ position: "absolute", width: "100%", height: "100%", borderRadius: 35, border: "2px solid rgba(255,255,255,0.3)", pointerEvents: "none" }} />
-                <div className="pulse-ring" style={{ position: "absolute", width: "100%", height: "100%", borderRadius: 35, border: "2px solid rgba(255,255,255,0.2)", animationDelay: "0.5s", pointerEvents: "none" }} />
+              {/* Main Blueprint Box Wrapper to constrain elements cleanly */}
+              <div style={{ position: "relative", width: 450, height: 320 }}>
                 
+                {/* SVG Connecting Web Lines mapping explicitly behind nodes */}
+                <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1, pointerEvents: "none", overflow: "visible" }}>
+                  <defs>
+                    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="#4f46e5" stopOpacity="0.1" />
+                    </linearGradient>
+                  </defs>
+                  
+                  {/* Dynamic path connections to layout coordinates */}
+                  <line x1="0" y1="0" x2="225" y2="160" stroke="url(#lineGrad)" strokeWidth="2" strokeDasharray="5,6" />
+                  <line x1="450" y1="0" x2="225" y2="160" stroke="url(#lineGrad)" strokeWidth="2" strokeDasharray="5,6" />
+                  <line x1="0" y1="320" x2="225" y2="160" stroke="url(#lineGrad)" strokeWidth="2" strokeDasharray="5,6" />
+                  <line x1="450" y1="320" x2="225" y2="160" stroke="url(#lineGrad)" strokeWidth="2" strokeDasharray="5,6" />
+                  <line x1="225" y1="0" x2="225" y2="160" stroke="url(#lineGrad)" strokeWidth="1.5" strokeDasharray="5,6" />
+                </svg>
+
+                {/* Central Core Purple Hub Node */}
                 <motion.div
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.5 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, type: "spring" }}
                   style={{
-                    width: 52, height: 52, borderRadius: 16,
-                    background: "rgba(255, 255, 255, 0.15)",
-                    backdropFilter: "blur(12px)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    marginBottom: 12,
+                    position: "absolute", top: "50%", left: "50%",
+                    transform: "translate(-50%, -50%)", width: 190, height: 190,
+                    borderRadius: 32, background: "linear-gradient(135deg, #7c3aed 0%, #5b21b6 60%, #4338ca 100%)",
+                    boxShadow: "0 32px 64px rgba(109, 40, 217, 0.35), 0 0 0 2px rgba(255, 255, 255, 0.1) inset",
+                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                    zIndex: 10, textAlign: "center", cursor: "pointer"
                   }}
+                  whileHover={{ scale: 1.04 }}
                 >
-                  <FiUsers size={24} color="#fff" />
+                  <div className="pulse-ring" style={{ position: "absolute", width: "100%", height: "100%", borderRadius: 32, border: "2px solid rgba(255,255,255,0.25)" }} />
+                  <div style={{ width: 48, height: 48, borderRadius: 14, background: "rgba(255, 255, 255, 0.12)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 10 }}>
+                    <FiUsers size={22} color="#fff" />
+                  </div>
+                  <p style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "1.35rem", color: "#fff", margin: 0 }}>4 Members</p>
+                  <p style={{ fontSize: ".75rem", color: "rgba(255, 255, 255, 0.75)", margin: "2px 0 12px", fontWeight: 500 }}>Working Together</p>
+                  <div style={{ display: "flex", gap: 5 }}>
+                    {[20, 36, 44].map((w, i) => (
+                      <div key={i} style={{ width: w, height: 4, borderRadius: 10, background: `rgba(255, 255, 255, ${0.2 + i * 0.25})` }} />
+                    ))}
+                  </div>
                 </motion.div>
-                <p style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#fff", margin: 0, letterSpacing: "-0.02em" }}>4 Member</p>
-                <p style={{ fontSize: ".75rem", color: "rgba(255, 255, 255, 0.75)", margin: "4px 0 16px", fontWeight: 500 }}>Working Together</p>
-                <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                  {[24, 38, 48].map((w, i) => (
+
+                {/* Satellite Profile Cards Loop using Framer Motion Physics Engine */}
+                {cards.map((card, idx) => {
+                  const IconComponent = card.icon;
+                  return (
                     <motion.div
-                      key={i}
-                      initial={{ width: 0 }}
-                      animate={{ width: w }}
-                      transition={{ delay: 0.5 + i * 0.1, duration: 0.6 }}
+                      key={card.id}
+                      custom={idx}
+                      variants={floatVariants}
+                      animate="animate"
+                      className={card.className}
                       style={{
-                        height: 4, borderRadius: 10,
-                        background: `rgba(255, 255, 255, ${0.2 + i * 0.25})`,
+                        background: "rgba(255, 255, 255, 0.98)",
+                        backdropFilter: "blur(12px)",
+                        border: `2px solid ${hoveredCard === card.id ? "var(--tu-violet)" : "rgba(255, 255, 255, 0.8)"}`,
+                        borderRadius: 18,
+                        padding: "10px 16px 10px 10px",
+                        boxShadow: hoveredCard === card.id ? "0 20px 40px rgba(124,58,237,0.12)" : "0 10px 25px rgba(0, 0, 0, 0.05)",
+                        display: "flex", alignItems: "center", gap: 10,
+                        minWidth: 190, zIndex: 12, cursor: "pointer",
+                        transition: "border-color 0.2s, box-shadow 0.2s",
                       }}
-                    />
-                  ))}
-                </div>
-              </motion.div>
+                      onMouseEnter={() => setHoveredCard(card.id)}
+                      onMouseLeave={() => setHoveredCard(null)}
+                      whileHover={{ scale: 1.05, zIndex: 20 }}
+                    >
+                      <div style={{ width: 40, height: 40, borderRadius: 12, background: card.gradient, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <IconComponent size={18} color={card.iconColor} />
+                      </div>
+                      <div>
+                        <p style={{ fontWeight: 800, fontSize: ".85rem", color: "#1e293b", margin: 0, whiteSpace: "nowrap" }}>{card.title}</p>
+                        <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 1 }}>
+                          <span style={{ width: 5, height: 5, borderRadius: "50%", background: card.statusColor, display: "inline-block" }} />
+                          <p style={{ fontSize: ".65rem", color: card.statusColor, margin: 0, fontWeight: 700 }}>{card.status}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
 
-              {/* Card 1: React Developer - Top Left */}
-              <motion.div
-                initial={{ opacity: 0, x: -50, y: -30 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3, type: "spring", stiffness: 200 }}
-                className={getCardAnimation(1)}
-                style={{
-                  position: "absolute", top: 40, left: 20,
-                  background: "rgba(255, 255, 255, 0.98)",
-                  backdropFilter: "blur(16px)",
-                  border: `2px solid ${hoveredCard === 1 ? "#7c3aed" : "rgba(255, 255, 255, 0.8)"}`,
-                  borderRadius: 20,
-                  padding: "12px 18px 12px 12px",
-                  boxShadow: hoveredCard === 1 ? "0 20px 40px rgba(124,58,237,0.15)" : "0 12px 28px rgba(0, 0, 0, 0.06)",
-                  display: "flex", alignItems: "center", gap: 12,
-                  minWidth: 200, zIndex: 12,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={() => setHoveredCard(1)}
-                onMouseLeave={() => setHoveredCard(null)}
-                whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              >
-                <motion.div
-                  whileHover={{ rotate: 10, scale: 1.05 }}
-                  style={{
-                    width: 44, height: 44, borderRadius: 14,
-                    background: "linear-gradient(135deg, #eff6ff, #dbeafe)", border: "1.5px solid #bfdbfe",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                  }}
-                >
-                  <FiCode size={20} color="#3b82f6" />
-                </motion.div>
-                <div>
-                  <p style={{ fontWeight: 800, fontSize: ".9rem", color: "#1e293b", margin: 0 }}>React Developer</p>
-                  <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 2 }}>
-                    <motion.span
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                      style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", display: "inline-block" }}
-                    />
-                    <p style={{ fontSize: ".7rem", color: "#22c55e", margin: 0, fontWeight: 600 }}>Available Now</p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Card 2: UI/UX Designer - Top Right */}
-              <motion.div
-                initial={{ opacity: 0, x: 50, y: -30 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.35, type: "spring", stiffness: 200 }}
-                className={getCardAnimation(2)}
-                style={{
-                  position: "absolute", top: 40, right: 20,
-                  background: "rgba(255, 255, 255, 0.98)",
-                  backdropFilter: "blur(16px)",
-                  border: `2px solid ${hoveredCard === 2 ? "#ec4899" : "rgba(255, 255, 255, 0.8)"}`,
-                  borderRadius: 20,
-                  padding: "12px 18px 12px 12px",
-                  boxShadow: hoveredCard === 2 ? "0 20px 40px rgba(236,72,153,0.12)" : "0 12px 28px rgba(0, 0, 0, 0.06)",
-                  display: "flex", alignItems: "center", gap: 12,
-                  minWidth: 200, zIndex: 12,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={() => setHoveredCard(2)}
-                onMouseLeave={() => setHoveredCard(null)}
-                whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              >
-                <motion.div
-                  whileHover={{ rotate: -10, scale: 1.05 }}
-                  style={{
-                    width: 44, height: 44, borderRadius: 14,
-                    background: "linear-gradient(135deg, #fdf2f8, #fce7f3)", border: "1.5px solid #fbcfe8",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                  }}
-                >
-                  <FiUser size={20} color="#ec4899" />
-                </motion.div>
-                <div>
-                  <p style={{ fontWeight: 800, fontSize: ".9rem", color: "#1e293b", margin: 0 }}>UI/UX Designer</p>
-                  <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 2 }}>
-                    <motion.span
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }}
-                      style={{ width: 6, height: 6, borderRadius: "50%", background: "#f59e0b", display: "inline-block" }}
-                    />
-                    <p style={{ fontSize: ".7rem", color: "#f59e0b", margin: 0, fontWeight: 600 }}>Open to Collab</p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Card 3: Backend Engineer - Bottom Left */}
-              <motion.div
-                initial={{ opacity: 0, x: -50, y: 30 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4, type: "spring", stiffness: 200 }}
-                className={getCardAnimation(3)}
-                style={{
-                  position: "absolute", bottom: 50, left: 20,
-                  background: "rgba(255, 255, 255, 0.98)",
-                  backdropFilter: "blur(16px)",
-                  border: `2px solid ${hoveredCard === 3 ? "#10b981" : "rgba(255, 255, 255, 0.8)"}`,
-                  borderRadius: 20,
-                  padding: "12px 18px 12px 12px",
-                  boxShadow: hoveredCard === 3 ? "0 20px 40px rgba(16,185,129,0.12)" : "0 12px 28px rgba(0, 0, 0, 0.06)",
-                  display: "flex", alignItems: "center", gap: 12,
-                  minWidth: 210, zIndex: 12,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={() => setHoveredCard(3)}
-                onMouseLeave={() => setHoveredCard(null)}
-                whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              >
-                <motion.div
-                  whileHover={{ rotate: 10, scale: 1.05 }}
-                  style={{
-                    width: 44, height: 44, borderRadius: 14,
-                    background: "linear-gradient(135deg, #f0fdf4, #dcfce7)", border: "1.5px solid #a7f3d0",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                  }}
-                >
-                  <FiCpu size={20} color="#10b981" />
-                </motion.div>
-                <div>
-                  <p style={{ fontWeight: 800, fontSize: ".9rem", color: "#1e293b", margin: 0 }}>Backend Engineer</p>
-                  <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 2 }}>
-                    <motion.span
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 1.5, repeat: Infinity, delay: 0.6 }}
-                      style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", display: "inline-block" }}
-                    />
-                    <p style={{ fontSize: ".7rem", color: "#22c55e", margin: 0, fontWeight: 600 }}>Available Now</p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Card 4: Project Manager - Bottom Right */}
-              <motion.div
-                initial={{ opacity: 0, x: 50, y: 30 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.45, type: "spring", stiffness: 200 }}
-                className={getCardAnimation(4)}
-                style={{
-                  position: "absolute", bottom: 50, right: 20,
-                  background: "rgba(255, 255, 255, 0.98)",
-                  backdropFilter: "blur(16px)",
-                  border: `2px solid ${hoveredCard === 4 ? "#f59e0b" : "rgba(255, 255, 255, 0.8)"}`,
-                  borderRadius: 20,
-                  padding: "12px 18px 12px 12px",
-                  boxShadow: hoveredCard === 4 ? "0 20px 40px rgba(245,158,11,0.12)" : "0 12px 28px rgba(0, 0, 0, 0.06)",
-                  display: "flex", alignItems: "center", gap: 12,
-                  minWidth: 200, zIndex: 12,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={() => setHoveredCard(4)}
-                onMouseLeave={() => setHoveredCard(null)}
-                whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              >
-                <motion.div
-                  whileHover={{ rotate: -10, scale: 1.05 }}
-                  style={{
-                    width: 44, height: 44, borderRadius: 14,
-                    background: "linear-gradient(135deg, #fffbeb, #fef3c7)", border: "1.5px solid #fde68a",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                  }}
-                >
-                  <FiBriefcase size={20} color="#f59e0b" />
-                </motion.div>
-                <div>
-                  <p style={{ fontWeight: 800, fontSize: ".9rem", color: "#1e293b", margin: 0 }}>Project Manager</p>
-                  <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 2 }}>
-                    <motion.span
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 1.5, repeat: Infinity, delay: 0.9 }}
-                      style={{ width: 6, height: 6, borderRadius: "50%", background: "#3b82f6", display: "inline-block" }}
-                    />
-                    <p style={{ fontSize: ".7rem", color: "#3b82f6", margin: 0, fontWeight: 600 }}>Actively Looking</p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Card 5: ML Engineer - Extra card floating near top center */}
-              <motion.div
-                initial={{ opacity: 0, y: -40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5, type: "spring", stiffness: 300 }}
-                className={getCardAnimation(5)}
-                style={{
-                  position: "absolute", top: 120, left: "50%", transform: "translateX(-50%)",
-                  background: "rgba(255, 255, 255, 0.97)",
-                  backdropFilter: "blur(12px)",
-                  border: `2px solid ${hoveredCard === 5 ? "#7c3aed" : "rgba(255, 255, 255, 0.7)"}`,
-                  borderRadius: 16,
-                  padding: "8px 16px 8px 10px",
-                  boxShadow: hoveredCard === 5 ? "0 12px 28px rgba(124,58,237,0.12)" : "0 8px 20px rgba(0, 0, 0, 0.05)",
-                  display: "flex", alignItems: "center", gap: 10,
-                  zIndex: 11,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={() => setHoveredCard(5)}
-                onMouseLeave={() => setHoveredCard(null)}
-                whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              >
-                <motion.div
-                  whileHover={{ rotate: 15, scale: 1.1 }}
-                  style={{
-                    width: 36, height: 36, borderRadius: 12,
-                    background: "linear-gradient(135deg, #f3e8ff, #ede9fe)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                  }}
-                >
-                  <FiTarget size={16} color="#7c3aed" />
-                </motion.div>
-                <div>
-                  <p style={{ fontWeight: 700, fontSize: ".8rem", color: "#1e293b", margin: 0 }}>ML Engineer</p>
-                  <p style={{ fontSize: ".65rem", color: "#22c55e", margin: 0, fontWeight: 600 }}>Open to Work</p>
-                </div>
-              </motion.div>
-
-              {/* Recent Activity Panel with staggered entry */}
-              <motion.div
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, delay: 0.55 }}
-                className="float-m2"
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  right: 20,
-                  transform: "translateY(-50%)",
-                  background: "rgba(255, 255, 255, 0.97)",
-                  backdropFilter: "blur(16px)",
-                  border: "1px solid rgba(255, 255, 255, 0.9)",
-                  borderRadius: 20,
-                  padding: "16px 20px",
-                  boxShadow: "0 16px 32px rgba(0, 0, 0, 0.06)",
-                  minWidth: 170,
-                  zIndex: 13,
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    style={{ width: 4, height: 4, borderRadius: "50%", background: "#7c3aed" }}
-                  />
-                  <p style={{
-                    fontSize: ".65rem", fontWeight: 800, color: "#94a3b8",
-                    letterSpacing: ".1em", textTransform: "uppercase", margin: 0,
-                  }}>
-                    RECENT ACTIVITY
-                  </p>
-                </div>
-                {activities.map((item, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.7 + i * 0.08 }}
-                    style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: i < 3 ? 10 : 0 }}
-                  >
-                    <motion.div
-                      animate={{ scale: [1, 1.3, 1] }}
-                      transition={{ duration: 1, repeat: Infinity, delay: i * 0.3 }}
-                      style={{ width: 6, height: 6, borderRadius: "50%", background: item.color, flexShrink: 0 }}
-                    />
-                    <p style={{ fontSize: ".78rem", fontWeight: 500, color: "#475569", margin: 0 }}>{item.text}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
-
-              {/* Animated Connecting Lines */}
-              <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 5, pointerEvents: "none", overflow: "visible" }}>
-                <defs>
-                  <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.4" />
-                    <stop offset="100%" stopColor="#4f46e5" stopOpacity="0.05" />
-                  </linearGradient>
-                  <filter id="glow">
-                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                    <feMerge>
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-                
-                <motion.line
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 1, delay: 0.8 }}
-                  x1="220" y1="82" x2="320" y2="240"
-                  stroke="url(#lineGrad)" strokeWidth="1.5" strokeDasharray="4,5"
-                  filter="url(#glow)"
-                />
-                <motion.line
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 1, delay: 0.85 }}
-                  x1="580" y1="82" x2="480" y2="240"
-                  stroke="url(#lineGrad)" strokeWidth="1.5" strokeDasharray="4,5"
-                  filter="url(#glow)"
-                />
-                <motion.line
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 1, delay: 0.9 }}
-                  x1="220" y1="500" x2="320" y2="340"
-                  stroke="url(#lineGrad)" strokeWidth="1.5" strokeDasharray="4,5"
-                  filter="url(#glow)"
-                />
-                <motion.line
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 1, delay: 0.95 }}
-                  x1="580" y1="500" x2="480" y2="340"
-                  stroke="url(#lineGrad)" strokeWidth="1.5" strokeDasharray="4,5"
-                  filter="url(#glow)"
-                />
-                <motion.line
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 1 }}
-                  x1="400" y1="155" x2="380" y2="260"
-                  stroke="url(#lineGrad)" strokeWidth="1.2" strokeDasharray="3,5"
-                  filter="url(#glow)"
-                />
-                <motion.line
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 1.05 }}
-                  x1="580" y1="280" x2="500" y2="290"
-                  stroke="url(#lineGrad)" strokeWidth="1.5" strokeDasharray="4,5"
-                  filter="url(#glow)"
-                />
-              </svg>
-
-              {/* Floating decorative dots */}
-              {[...Array(8)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: [0, 0.5, 0], scale: [0, 1, 0] }}
-                  transition={{ duration: 2, delay: i * 0.3, repeat: Infinity, repeatDelay: Math.random() * 3 }}
-                  style={{
-                    position: "absolute",
-                    width: 4 + Math.random() * 4,
-                    height: 4 + Math.random() * 4,
-                    borderRadius: "50%",
-                    background: `rgba(124, 58, 237, ${0.3 + Math.random() * 0.4})`,
-                    left: `${20 + Math.random() * 60}%`,
-                    top: `${20 + Math.random() * 60}%`,
-                    zIndex: 6,
-                  }}
-                />
-              ))}
+              </div>
             </div>
           </div>
 
