@@ -1,0 +1,328 @@
+/* src/index.css - Global styles for all pages */
+
+/* ── Import Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap');
+
+/* ── Root Variables ── */
+:root {
+  --violet: #6C47FF;
+  --violet-light: #8B6AFF;
+  --violet-dim: #EDE8FF;
+  --citrus: #FFD600;
+  --coral: #FF5C5C;
+  --ink: #0D0D1A;
+  --mist: #F3F2FF;
+  --white: #FFFFFF;
+  --gold-gradient: linear-gradient(135deg, #ffc107, #ff9800);
+  --warm-bg: linear-gradient(135deg, #fef9f0 0%, #fff5e6 100%);
+  --warm-hero: linear-gradient(135deg, #fff8f0 0%, #ffedd5 100%);
+}
+
+/* ── Global Body Styles ── */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Shared Page Container ── */
+.page-container {
+  background: var(--warm-bg);
+  min-height: 100vh;
+  padding-bottom: 4rem;
+}
+
+/* ── Shared Hero Section - Compact ── */
+.page-hero {
+  background: var(--warm-hero);
+  border-bottom: 2px solid rgba(255, 193, 7, 0.15);
+  padding: 1.5rem 0;
+  margin-bottom: 1.5rem;
+}
+
+.page-hero-badge {
+  display: inline-block;
+  padding: 0.3rem 1.2rem;
+  border-radius: 50px;
+  background: rgba(255, 193, 7, 0.15);
+  color: #f57c00;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.3px;
+}
+
+.page-title {
+  font-size: calc(1.2rem + 1.2vw);
+  font-weight: 700;
+  color: #2d1b0e;
+  margin-bottom: 0.15rem;
+}
+
+.page-title-gradient {
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-title-divider {
+  width: 60px;
+  height: 3px;
+  background: var(--gold-gradient);
+  border-radius: 4px;
+  margin: 0.3rem auto 0;
+}
+
+/* ── Shared Card Styles ── */
+.shared-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 193, 7, 0.15);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+}
+
+.shared-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 20px 50px rgba(255, 193, 7, 0.15);
+  border-color: rgba(255, 193, 7, 0.3);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.shared-card-header {
+  background: var(--warm-hero);
+  padding: 1rem 1.25rem;
+  border-bottom: 2px solid rgba(255, 193, 7, 0.15);
+}
+
+.shared-card-title {
+  color: #2d1b0e;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* ── Shared Badges ── */
+.shared-badge-gold {
+  background: rgba(255, 193, 7, 0.15) !important;
+  color: #f57c00 !important;
+  font-weight: 600;
+}
+
+.shared-badge-type {
+  background: #cfe2ff !important;
+  color: #0d6efd !important;
+  padding: 0.35rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+}
+
+.shared-badge-mode {
+  background: #d1e7dd !important;
+  color: #0f5132 !important;
+  padding: 0.35rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+}
+
+.shared-badge-skill {
+  padding: 0.35rem 0.8rem;
+  border-radius: 50px;
+  color: #6a3e9e;
+  border: 1px solid rgba(106, 62, 158, 0.1);
+  transition: all 0.2s;
+  cursor: default;
+  font-size: 0.75rem;
+}
+
+.shared-badge-skill:hover {
+  background: #e8d5ff !important;
+  transform: scale(1.05);
+}
+
+/* ── Shared Creator Avatar ── */
+.shared-creator-info {
+  display: flex;
+  align-items: center;
+  padding: 0.4rem;
+  border-radius: 8px;
+  background: rgba(255, 248, 240, 0.5);
+  margin-bottom: 0.75rem;
+}
+
+.shared-creator-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--gold-gradient);
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.shared-creator-label {
+  font-size: 0.6rem;
+}
+
+.shared-creator-name {
+  color: #2d1b0e;
+  font-size: 0.85rem;
+}
+
+/* ── Shared Gradient Button ── */
+.btn-gold-gradient {
+  background: var(--gold-gradient) !important;
+  color: #2d1b0e !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+  transition: all 0.3s;
+}
+
+.btn-gold-gradient:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 25px rgba(255, 193, 7, 0.4) !important;
+  color: #2d1b0e !important;
+}
+
+/* ── Shared Modal Styles ── */
+.shared-modal .modal-content {
+  backdrop-filter: blur(8px);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.shared-modal-header {
+  border: none;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 2px solid rgba(255, 193, 7, 0.15);
+  background: #fffbf5;
+}
+
+.shared-modal-body {
+  background: #fffbf5;
+  padding: 1.5rem;
+}
+
+.shared-modal-footer {
+  border: none;
+  padding: 1.25rem 1.5rem;
+  border-top: 2px solid rgba(255, 193, 7, 0.1);
+  background: #fffbf5;
+}
+
+/* ── Shared Form Styles ── */
+.shared-form-label {
+  font-weight: 600;
+  color: #2d1b0e;
+  font-size: 0.9rem;
+}
+
+.shared-file-input {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+}
+
+.shared-file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem;
+  border-radius: 16px;
+  background: #fef9f2;
+  border: 2px dashed #ffc107;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.shared-file-label:hover {
+  background: #fff8f0;
+  border-color: #ff9800;
+  color: #2d1b0e;
+}
+
+.shared-textarea {
+  border: 2px solid #f0d5b0;
+  background: #fef9f2;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+  resize: vertical;
+  border-radius: 16px;
+}
+
+.shared-textarea:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+  background: #fffbf5;
+}
+
+/* ── Shared Loading Screen ── */
+.shared-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--warm-bg);
+}
+
+.shared-spinner {
+  width: 60px;
+  height: 60px;
+  border-width: 5px;
+}
+
+.shared-loading-title {
+  color: #f57c00;
+  font-weight: 700;
+}
+
+/* ── Shared Empty State ── */
+.shared-empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.shared-empty-title {
+  color: #2d1b0e;
+}
+
+/* ── Responsive Adjustments ── */
+@media (max-width: 576px) {
+  .page-hero {
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+  }
+  
+  .page-title {
+    font-size: 1.5rem;
+  }
+  
+  .page-hero-badge {
+    font-size: 0.65rem;
+    padding: 0.2rem 1rem;
+  }
+  
+  .page-title-divider {
+    width: 40px;
+  }
+  
+  .shared-card-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .shared-modal-header,
+  .shared-modal-body,
+  .shared-modal-footer {
+    padding: 0.75rem 1rem;
+  }
+}
